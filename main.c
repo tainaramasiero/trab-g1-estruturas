@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct cliente {
   int id;
@@ -63,19 +64,62 @@ void exibirProximos (c *lista) {
   }
 }
 
-void chamarProximo (c **lista) {
+void chamarPorTempo (c **cl1, c **cl2) {
+  do {
+    if (cl1 != NULL) {
+      chamarProximo(&cl1);
+    } else if (cl2 != NULL) {
+      chamarProximo(&cl2)
+    }
+    sleep(30);
+  while (chamarProximo(&cl1) == 1 || chamarProximo(&cl2) == 1);
+}
+
+int chamarProximo (c **lista) {
   c *aux = lista;
   printf("id - %d\n", aux->id);
   printf("nome - %s\n", aux->nome);
   printf("rg - %s\n\n", aux->rg);
-  lista = aux->prox;
+  if (aux->prox != NULL) {
+    lista = aux->prox;
+  } else {
+    return 0;
+  }
+  return 1;
+}
+
+int validarNome(c **lista, char nome[50]) {
+  c *aux = lista;
+
+  if (aux != NULL) {
+    do {
+      if (strcmp(aux->nome, nome) === 0) {
+        printf("%s, voce ja esta na fila, aguarde sua vez", aux->nome);
+        return 0;
+      }
+      aux = aux->prox;
+    } while (aux != NULL);
+  }
+  return 1;
 }
 
 int main() {
-  c *cliente = NULL;
   c *clientePreferencial = NULL;
+  c *cliente = NULL;
   int identificador = 1;
   int op;
+
+  chamarPorTempo(&clientePreferencial, &cliente)
+
+  do {
+    if (clientePreferencial != NULL) {
+      chamarProximo(&clientePreferencial);
+    } else if (cliente != NULL) {
+      chamarProximo(&cliente)
+    }
+    sleep(30);
+  while (chamarProximo(&clientePreferencial) == 1 || chamarProximo(&cliente) == 1);
+  
 
   do {
     printf("Selecione uma opcao abaixo:\n");
@@ -107,11 +151,15 @@ int main() {
         do {
           switch (preferencial) {
             case 1: {
-              inserirFim(&clientePreferencial, id, nome, rg);
+              if (validarNome(&clientePreferencial, nome) == 1) {
+                inserirFim(&clientePreferencial, id, nome, rg);
+              }
               break;
             }
             case 1: {
-              inserirFim(&cliente, id, nome, rg);
+              if (validarNome(&cliente, nome) == 1) {
+                inserirFim(&cliente, id, nome, rg);
+              }
               break;
             }
             default: {
