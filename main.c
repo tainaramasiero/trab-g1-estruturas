@@ -8,6 +8,7 @@ typedef struct cliente {
   char nome[50];
   char rg[10];
   struct c *prox;
+  // time_t inicial;
 } c;
 
 c* alocarMemoria () {
@@ -117,6 +118,28 @@ int validarRG(c **lista, char rg[10]) {
   return 1;
 }
 
+int excluirDaLista(c **list) {
+  char rg[10];
+  c *anterior, *atual;
+
+  fflush(stdin);
+  printf("\nInforme seu RG: ");
+  gets(rg);
+
+  anterior = *list;
+  atual = *list;
+
+  while (atual != NULL) {
+    if (atual->rg[50] == rg[50]) {
+      free(atual);
+      anterior->prox = atual->prox;
+    } else {
+      return 0;
+    }
+  }
+  return 1;
+}
+
 int main() {
   c *clientePreferencial = NULL;
   c *cliente = NULL;
@@ -140,8 +163,8 @@ int main() {
   do {
     printf("Selecione uma opcao abaixo:\n");
     printf("1) Cliente;\n");
-    printf("2) Gerente;\n");
-    printf("3) Caixa;\n");
+    printf("2) Caixa;\n");
+    printf("3) Gerente;\n");
     printf("Tecle 0 e ENTER para sair\n");
     scanf("%d", &op);
 
@@ -152,6 +175,7 @@ int main() {
           printf("1) Cadastrar-se na lista de espera;\n");
           printf("2) Exibir os proximos da fila;\n");
           printf("3) Visualizar quantos tem antes;\n");
+          printf("4) Desistir do atendimento;\n");
           printf("9) Para voltar ao menu anterior;\n");
           printf("Tecle 0 e ENTER para sair\n");
           scanf("%d", &op);
@@ -217,12 +241,15 @@ int main() {
               break;
             }
             case 4: {
-              break;
-            }
-            case 5: {
-              break;
-            }
-            case 6: {
+              int confimarcao;
+              if (clientePreferencial != NULL) {
+                confimarcao = excluirDaLista(&clientePreferencial);
+                if (confimarcao == 0) {
+                  confimarcao = excluirDaLista(&cliente);
+                } else {
+                  printf("Voce nao esta na lista!");
+                }
+              }
               break;
             }
             default: {
@@ -239,7 +266,7 @@ int main() {
         printf("Digite sua senha:\n");
         scanf("%d", &senha);
 
-        while (senha != senhaGerente) {
+        while (senha != senhaCaixa) {
           printf("Senha incorreta! Tente novamente:\n");
           scanf("%d", &senha);
           
@@ -274,7 +301,7 @@ int main() {
         printf("Digite sua senha:\n");
         scanf("%d", &senha);
 
-        while (senha != senhaCaixa) {
+        while (senha != senhaGerente) {
           printf("Senha incorreta! Tente novamente:\n");
           scanf("%d", &senha);
 
@@ -303,99 +330,3 @@ int main() {
 
   return 1;
 }
-
-/*
-  c *inserir(c *a)
-{
-  c *p = NULL;
-  p = (c *)malloc(sizeof(c *));
-  fflush(stdin);
-  printf("\nDigite o nome do cliente: ");
-  gets(p->nome);
-  fflush(stdin);
-  printf("\nDigite o rg do cliente: ");
-  gets(p->rg);
-  p->prox = a;
-
-  return p;
-}
-
-c *inserirInicio(c *inicio)
-{
-  c *p = inserir(inicio);
-
-  return p;
-}
-
-//inserir nova pessoa na lista de espera
-void insere_final(c **lista)
-{
-  c *n, *aux;
-
-  inserir(n);
-  n = (c *)malloc(sizeof(c));
-
-  fflush(stdin);
-  printf("\nDigite o nome do cliente: ");
-  gets(n->nome);
-  fflush(stdin);
-  printf("\nDigite o rg do cliente: ");
-  gets(n->rg);
-
-  n->prox = NULL;
-
-  if (*lista == NULL)
-  {
-    *lista = n;
-  }
-  else
-  {
-    aux = *lista;
-    while (aux->prox != NULL)
-      aux = aux->prox;
-    aux->prox = n;
-  }
-}
-
-
-//excluir a pessoa depois de atend�-la
-void excluir(c **list)
-{
-  char nm[50];
-  c *anterior, *atual;
-
-  printf("\nInforme o nome do cliente que deseja excluir: ");
-  gets(nm);
-
-  anterior = *list;
-  atual = *list;
-
-  while (atual != NULL)
-  {
-    if (atual->nome[50] == nm[50])
-    {
-      free(atual);
-      anterior->prox = atual->prox;
-    }
-  }
-}
-
-//buscar seu rg para ver quantos falta
-void lista_buscar(c **list)
-{
-  int valor;
-
-  printf("\nInforme o numero do cliente desejado: ");
-  scanf("%d", &valor);
-
-  c *n;
-
-  for (n = (*list); n != NULL; n->prox)
-  {
-    if (valor == n->rg)
-    {
-      printf("\n %s  ->  %d.", n->nome, n->rg);
-    }
-  }
-}
-*/
