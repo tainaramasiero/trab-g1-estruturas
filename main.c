@@ -267,6 +267,7 @@ int main() {
             }
         break;
       }
+    }
       case 3: {
         int senha;
         int tentativas = 1;
@@ -295,8 +296,7 @@ int main() {
         break;
       }
     }
-    }
-  } while (op != 0);
+  }while (op != 0);
 
   free(clientePreferencial);
   free(cliente);
