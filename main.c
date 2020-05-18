@@ -295,11 +295,12 @@ int main() {
         break;
       }
     }
+    }
   } while (op != 0);
 
   free(clientePreferencial);
   free(cliente);
-  
+
   return 1;
 }
 
