@@ -149,18 +149,19 @@ int main() {
   int senhaGerente = 1234;
   int senhaCaixa = 2222;
 
-  chamarPorTempo(&clientePreferencial, &cliente);
+  //chamarPorTempo(&clientePreferencial, &cliente);
 
-  do {
+  /*do {
     if (clientePreferencial != NULL) {
       chamarProximo(&clientePreferencial);
     } else if (cliente != NULL) {
       chamarProximo(&cliente);
     }
     sleep(30);
-  } while (chamarProximo(&clientePreferencial) == 1 || chamarProximo(&cliente) == 1);
+  } while (chamarProximo(&clientePreferencial) == 1 || chamarProximo(&cliente) == 1);*/
   
   do {
+  	system("cls");
     printf("Selecione uma opcao abaixo:\n");
     printf("1) Cliente;\n");
     printf("2) Caixa;\n");
@@ -171,6 +172,8 @@ int main() {
     switch (op) {
       case 1: {
         do {
+          system("cls");
+          int op1;
           printf("Selecione uma opcao abaixo:\n");
           printf("1) Cadastrar-se na lista de espera;\n");
           printf("2) Exibir os proximos da fila;\n");
@@ -178,10 +181,11 @@ int main() {
           printf("4) Desistir do atendimento;\n");
           printf("9) Para voltar ao menu anterior;\n");
           printf("Tecle 0 e ENTER para sair\n");
-          scanf("%d", &op);
+          scanf("%d", &op1);
 
-          switch (op) {
+          switch (op1) {
             case 1: {
+              system("cls");
               identificador++;
               int id = identificador;
               char nome[50];
@@ -219,8 +223,9 @@ int main() {
                 }
               } while (preferencial != 1 || preferencial != 2);
               break;
-            }
+            } while (op1 != 0)
             case 2: {
+              system("cls");
               if (clientePreferencial != NULL) {
                 chamarProximo(&clientePreferencial);
               } else if (cliente != NULL) {
@@ -228,9 +233,11 @@ int main() {
               } else {
                 printf("\nNao ha mais clientes para serem atendidos.");
               }
+              system("pause");
               break;
             }
             case 3: {
+              system("cls");
               if (clientePreferencial != NULL) {
                 exibirProximosTres(clientePreferencial);
               } else if (cliente != NULL) {
@@ -238,9 +245,11 @@ int main() {
               } else {
                 printf("\nNao ha mais clientes para serem atendidos.");
               }
+              system("pause");
               break;
             }
             case 4: {
+              system("cls");
               int confimarcao;
               if (clientePreferencial != NULL) {
                 confimarcao = excluirDaLista(&clientePreferencial);
@@ -250,6 +259,7 @@ int main() {
                   printf("Voce nao esta na lista!");
                 }
               }
+              system("pause");
               break;
             }
             default: {
@@ -261,6 +271,8 @@ int main() {
         break;
       }
       case 2: {
+      	int op2;
+      	system("cls");
         int senha;
         int tentativas = 1;
         printf("Digite sua senha:\n");
@@ -274,15 +286,17 @@ int main() {
             break;
           }
         }
-
+		
+		system("cls");
         printf("Selecione uma opcao abaixo:\n");
         printf("1) Chamar proximo da fila;\n");
         printf("9) Para voltar ao menu anterior;\n");
         printf("Tecle 0 e ENTER para sair\n");
-        scanf("%d", &op);
+        scanf("%d", &op2);
 
-        switch (op) {
+        switch (op2) {
             case 1: {
+              system("cls");
               if (clientePreferencial != NULL) {
                 chamarProximo(&clientePreferencial);
               } else if (cliente != NULL) {
@@ -296,6 +310,8 @@ int main() {
       }
     }
       case 3: {
+      	system("cls");
+      	int op3;
         int senha;
         int tentativas = 1;
         printf("Digite sua senha:\n");
@@ -309,12 +325,13 @@ int main() {
             break;
           }
         }
-
+		
+		system("cls");
         printf("Selecione uma opcao abaixo:\n");
         printf("1) Visualizar quantos tem na fila;\n");
         printf("9) Para voltar ao menu anterior;\n");
         printf("Tecle 0 e ENTER para sair\n");
-        scanf("%d", &op);
+        scanf("%d", &op3);
         
         break;
       }
