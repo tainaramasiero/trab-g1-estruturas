@@ -36,22 +36,6 @@ void inserirFim (c **lista, int id, char nome[50], char rg[10]) {
   }
 }
 
-void inserirInicio (c **lista, int id, char nome[50], char rg[10]) {
-  c *aux = alocarMemoria();
-
-  aux->id = id;
-  strcpy(aux->nome, nome);
-  strcpy(aux->rg, rg);
-
-  if (*lista == NULL) {
-    aux->prox = NULL;
-    lista = aux;
-  } else {
-    aux->prox = *lista;
-    *lista = aux;
-  }
-}
-
 void exibirProximos (c *lista) {
   c *aux = lista;
 
@@ -118,7 +102,7 @@ int validarRG(c **lista, char rg[10]) {
   return 1;
 }
 
-int excluirDaLista(c **list) {
+int excluirDaLista(c **lista) {
   char rg[10];
   c *anterior, *atual;
 
@@ -126,8 +110,8 @@ int excluirDaLista(c **list) {
   printf("\nInforme seu RG: ");
   gets(rg);
 
-  anterior = *list;
-  atual = *list;
+  anterior = *lista;
+  atual = *lista;
 
   while (atual != NULL) {
     if (atual->rg[50] == rg[50]) {
@@ -140,6 +124,22 @@ int excluirDaLista(c **list) {
   return 1;
 }
 
+void exibirTodosDaLista(c *lista){
+	
+	int aux = 0;
+	if(lista != NULL){
+		
+		printf("\n%s - %d", lista->nome, lista->rg);
+		aux ++;
+		
+	}
+	
+	exibirTodosDaLista(lista->prox);
+	
+	printf("\nHa um total de %d pessoas na fila.", aux);
+	
+}
+
 int main() {
   c *clientePreferencial = NULL;
   c *cliente = NULL;
@@ -149,18 +149,19 @@ int main() {
   int senhaGerente = 1234;
   int senhaCaixa = 2222;
 
-  chamarPorTempo(&clientePreferencial, &cliente);
+  //chamarPorTempo(&clientePreferencial, &cliente);
 
-  do {
+  /*do {
     if (clientePreferencial != NULL) {
       chamarProximo(&clientePreferencial);
     } else if (cliente != NULL) {
       chamarProximo(&cliente);
     }
     sleep(30);
-  } while (chamarProximo(&clientePreferencial) == 1 || chamarProximo(&cliente) == 1);
+  } while (chamarProximo(&clientePreferencial) == 1 || chamarProximo(&cliente) == 1);*/
   
   do {
+  	system("cls");
     printf("Selecione uma opcao abaixo:\n");
     printf("1) Cliente;\n");
     printf("2) Caixa;\n");
@@ -171,6 +172,8 @@ int main() {
     switch (op) {
       case 1: {
         do {
+          system("cls");
+          int op1;
           printf("Selecione uma opcao abaixo:\n");
           printf("1) Cadastrar-se na lista de espera;\n");
           printf("2) Exibir os proximos da fila;\n");
@@ -182,6 +185,7 @@ int main() {
 
           switch (op) {
             case 1: {
+              system("cls");
               identificador++;
               int id = identificador;
               char nome[50];
@@ -218,9 +222,11 @@ int main() {
                   }
                 }
               } while (preferencial != 1 || preferencial != 2);
+              
               break;
             }
             case 2: {
+              system("cls");
               if (clientePreferencial != NULL) {
                 chamarProximo(&clientePreferencial);
               } else if (cliente != NULL) {
@@ -228,9 +234,11 @@ int main() {
               } else {
                 printf("\nNao ha mais clientes para serem atendidos.");
               }
+              system("pause");
               break;
             }
             case 3: {
+              system("cls");
               if (clientePreferencial != NULL) {
                 exibirProximosTres(clientePreferencial);
               } else if (cliente != NULL) {
@@ -238,9 +246,11 @@ int main() {
               } else {
                 printf("\nNao ha mais clientes para serem atendidos.");
               }
+              system("pause");
               break;
             }
             case 4: {
+              system("cls");
               int confimarcao;
               if (clientePreferencial != NULL) {
                 confimarcao = excluirDaLista(&clientePreferencial);
@@ -250,17 +260,21 @@ int main() {
                   printf("Voce nao esta na lista!");
                 }
               }
+              system("pause");
               break;
             }
             default: {
               printf("Digito incorreto\n\n");
               break;
             }
-          }
-        } while (op != 0 || op != 9);
+        }
         break;
-      }
+      } while (op != 0);
+      
+      do{
       case 2: {
+      	int op;
+      	system("cls");    
         int senha;
         int tentativas = 1;
         printf("Digite sua senha:\n");
@@ -274,7 +288,8 @@ int main() {
             break;
           }
         }
-
+		
+		system("cls");
         printf("Selecione uma opcao abaixo:\n");
         printf("1) Chamar proximo da fila;\n");
         printf("9) Para voltar ao menu anterior;\n");
@@ -283,6 +298,7 @@ int main() {
 
         switch (op) {
             case 1: {
+              system("cls");
               if (clientePreferencial != NULL) {
                 chamarProximo(&clientePreferencial);
               } else if (cliente != NULL) {
@@ -295,7 +311,11 @@ int main() {
         break;
       }
     }
+}while (op != 9);
+
       case 3: {
+      	system("cls");
+      	int op3;
         int senha;
         int tentativas = 1;
         printf("Digite sua senha:\n");
@@ -309,15 +329,34 @@ int main() {
             break;
           }
         }
-
+		
+		system("cls");
         printf("Selecione uma opcao abaixo:\n");
         printf("1) Visualizar quantos tem na fila;\n");
         printf("9) Para voltar ao menu anterior;\n");
         printf("Tecle 0 e ENTER para sair\n");
         scanf("%d", &op);
         
+        if(op == 1) {
+        	system("cls");
+        	if (clientePreferencial != NULL) {
+                exibirTodosDaLista(&clientePreferencial);
+              } else if (cliente != NULL) {
+                exibirTodosDaLista(&cliente);
+              } else {
+                printf("\nNao ha mais clientes para serem atendidos.");
+              }
+		}
+		system("pause");
+        
         break;
       }
+      
+      case 0: {
+  			system("exit");
+			break;
+		  }
+		  
       default: {
         printf("Digito incorreto\n\n");
         break;
@@ -327,6 +366,9 @@ int main() {
 
   free(clientePreferencial);
   free(cliente);
+  
+  		
 
   return 1;
+}while (op != 0);
 }
